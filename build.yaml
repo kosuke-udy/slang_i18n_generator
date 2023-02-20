@@ -1,0 +1,17 @@
+builders:
+  slang_i18n_generator:
+    import: "lib/slang_i18n_generator.dart"
+    builder_factories: ["slangI18nGeneratorFactory"]
+    build_extensions: {".slang.json": [".i18n.json"]}
+    auto_apply: root_package
+    build_to: source
+targets:
+  $default:
+    builders:
+      slang_build_runner:
+        options:
+          base_locale: en
+          fallback_strategy: base_locale
+      slang_json_generator:
+        generate_for:
+          - lib/sample/*.slang.json
