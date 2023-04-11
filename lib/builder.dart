@@ -7,22 +7,35 @@ import 'converter.dart';
 import 'parser.dart';
 
 Builder slangI18nGeneratorFactory(BuilderOptions options) {
-  return SlangI18nGenerator();
+  return SlangI18nGenerator(options);
 }
 
 class SlangI18nGenerator extends Builder {
+  final BuilderOptions options;
+
+  SlangI18nGenerator(this.options);
+
   @override
-  Map<String, List<String>> get buildExtensions => {
-        '.slang.json': ['.i18n.json', '_jp.i18n.json'],
-      };
+  Map<String, List<String>> get buildExtensions {
+    final extensions = ['.i18n.json'];
+
+    for (final language
+        in options.config['additional_locales'] as List<dynamic>) {
+      extensions.add('_$language.i18n.json');
+    }
+
+    return {
+      '.slang.json': extensions,
+    };
+  }
 
   @override
   Future<void> build(BuildStep buildStep) async {
     final inputId = buildStep.inputId;
-    final input =
-        json.decode(await buildStep.readAsString(inputId)) as List<dynamic>;
 
     final parsedEntries = <ParsedEntry>[];
+    final input =
+        json.decode(await buildStep.readAsString(inputId)) as List<dynamic>;
     for (final entry in input) {
       final map = entry as Map<String, dynamic>;
       parsedEntries.addAll(parse([], map));
@@ -40,11 +53,7 @@ class SlangI18nGenerator extends Builder {
       if (language == "base") {
         await buildStep.writeAsString(outputId, json.encode(entry.map));
       } else {
-        final filename = outputId.path.split("/").last;
         await File(outputId.path).create(recursive: true);
-        // buildStep.findAssets(Glob('*_*.i18n.json')).listen((id) async {
-        //   await buildStep.writeAsString(outputId, json.encode(entry.map));
-        // });
         await buildStep.writeAsString(outputId, json.encode(entry.map));
       }
     }

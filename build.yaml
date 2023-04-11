@@ -15,3 +15,7 @@ targets:
       slang_json_generator:
         generate_for:
           - lib/sample/*.slang.json
+      slang_i18n_generator:
+        options:
+          additional_locales:
+            - jp
