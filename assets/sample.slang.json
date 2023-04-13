@@ -1,0 +1,12 @@
+{
+    "sample1": {
+        "base": "Sample",
+        "jp": "サンプル"
+    },
+    "sample2": {
+        "sample2-1": {
+            "base": "Sample2-1",
+            "jp": "サンプル2-1"
+        }
+    }
+}

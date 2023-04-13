@@ -24,13 +24,7 @@ List<ConvertedItem> convert(List<ParsedEntry> parsedEntries) {
     final retIndex = retIndexResult == -1 ? ret.length - 1 : retIndexResult;
 
     ret[retIndex].map = addValues(ret[retIndex].map, keys, values);
-    // print("Added - ${keys.toString()}: ${values.toString()}");
-    // print("Result - $lang: ${ret[retIndex].map}");
   }
-
-  // for (final item in ret) {
-  //   print("${item.language}: ${item.map}");
-  // }
 
   return ret;
 }

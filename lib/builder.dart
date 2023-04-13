@@ -33,14 +33,8 @@ class SlangI18nGenerator extends Builder {
   Future<void> build(BuildStep buildStep) async {
     final inputId = buildStep.inputId;
 
-    final parsedEntries = <ParsedEntry>[];
-    final input =
-        json.decode(await buildStep.readAsString(inputId)) as List<dynamic>;
-    for (final entry in input) {
-      final map = entry as Map<String, dynamic>;
-      parsedEntries.addAll(parse([], map));
-    }
-    final convertedEntries = convert(parsedEntries);
+    final input = json.decode(await buildStep.readAsString(inputId));
+    final convertedEntries = convert(parse([], input as Map<String, dynamic>));
 
     for (final entry in convertedEntries) {
       final language = entry.language;

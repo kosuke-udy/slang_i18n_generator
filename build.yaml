@@ -1,9 +1,9 @@
 builders:
   slang_i18n_generator:
-    import: "lib/slang_i18n_generator.dart"
+    import: "package:slang_i18n_generator/slang_i18n_generator.dart"
     builder_factories: ["slangI18nGeneratorFactory"]
     build_extensions: {".slang.json": [".i18n.json"]}
-    auto_apply: root_package
+    auto_apply: dependents
     build_to: source
 targets:
   $default:
@@ -12,9 +12,6 @@ targets:
         options:
           base_locale: en
           fallback_strategy: base_locale
-      slang_json_generator:
-        generate_for:
-          - lib/sample/*.slang.json
       slang_i18n_generator:
         options:
           additional_locales:
